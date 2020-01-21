@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_push_local/src/pages/home_page.dart';
+import 'package:flutter_push_local/src/pages/mensaje_page.dart';
 import 'package:flutter_push_local/src/providers/push_notifications_provider.dart';
 
 void main() => runApp(MyApp());
@@ -16,6 +18,11 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     final pushProvider = PushNotificationProvider();
     pushProvider.initNotifications();
+    pushProvider.mensajes.listen((argumento) {
+      print('argumento del Push');
+      print(argumento);
+//      Navigator.pushNamed(context, 'mensaje');
+    });
   }
 
   @override
@@ -26,11 +33,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Push Notification'),
-        ),
-      )
+      initialRoute: 'home',
+      routes: {
+        'home': (BuildContext context) => HomePage(),
+        'mensaje': (BuildContext context) => MensajePage()
+      },
     );
   }
 }
