@@ -35,6 +35,12 @@ class PushNotificationProvider {
       print(info);
       final noti = info['data']['comida'];
       print(noti);
+      var argument = 'no-data';
+      if (Platform.isAndroid) {
+        argument = info['data']['comida'] ?? 'no-data';
+      }
+
+      _mensajesStreamController.sink.add(argument);
     });
   }
 
