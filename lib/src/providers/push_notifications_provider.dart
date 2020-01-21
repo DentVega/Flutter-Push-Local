@@ -14,7 +14,9 @@ class PushNotificationProvider {
     _firebaseMessaging.getToken().then((token) {
       print('=== FCM TOKEN ===');
       print(token);
+      //Android:
       // fVyFUCCs49Q:APA91bE5ZVpWjZoRxJOC2coc1FPt_mgQ-QEL-KOinLMr6NG4brjx6jtXr_AQXGrWdiK_QyObXJBjL4T9y1r67njAKWSXFtQI9VxH05Z4zg2p2G63sDer0s9IVGD_ZwNQIFdyENL1OJSD
+      //Ios:
       // eDQCpdi7gZQ:APA91bE3F4OBb6lbGFi4IdQ0O2dnXJJl8NW6BEiKQb_lQ5BNEPfSVBM9siBMwY6a0yRL0dHHzjyObXHfPGPO-tbMesO30ZbwXpwrTjvCn5K_MCqMKYGriJ8cGgfBhzvi6RDrb2SqfNYw
     });
     _firebaseMessaging.configure(onMessage: (info) async {
@@ -23,6 +25,8 @@ class PushNotificationProvider {
       var argument = 'no-data';
       if (Platform.isAndroid) {
         argument = info['data']['comida'] ?? 'no-data';
+      } else {
+        argument = info['comida'] ?? 'no-data-ios';
       }
 
       _mensajesStreamController.sink.add(argument);
@@ -34,14 +38,14 @@ class PushNotificationProvider {
     }, onResume: (info) async {
       print('=== On Resume ===');
       print(info);
-      final noti = info['data']['comida'];
-      print(noti);
       var argument = 'no-data';
       if (Platform.isAndroid) {
         argument = info['data']['comida'] ?? 'no-data';
+      } else {
+        argument = info['comida'] ?? 'no-data-ios';
       }
 
-      _mensajesStreamController.sink.add(argument);
+        _mensajesStreamController.sink.add(argument);
     });
   }
 
